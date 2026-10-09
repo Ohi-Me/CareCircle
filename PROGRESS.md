@@ -46,3 +46,12 @@ user creates least-privilege profile `carecircle-dev` (IAM policy: bedrock:Invok
 Next: (a) Bedrock run of eval + heldout once profile exists (b) server-side conversation memory for LLM path
 (c) MCP elicitation for confirmations (d) deploy (App Runner needs Docker; or EC2/Lightsail) (e) blind test phrases from user
 (f) GitHub repo, demo video.
+
+## Status 2026-10-10 (night, user away; autonomous work)
+Done: MCP elicitation for approvals (session-based Streamable HTTP, SSE; agent relays to device; dashboard approval card;
+voice yes/no), requested-refill state, fixed literal-backspace regex bug (\b) in agent.ts/ruleAgent.ts/App.tsx,
+README rewrite, docs/demo-script.md, docs/product-feedback.md (DRAFT - user must review), deploy/ec2-user-data.sh +
+docs/deploy.md (UNTESTED), device framing UI. 29 tests pass; eval 32/32; heldout 24/24 (contaminated).
+Blocked on user: least-privilege AWS profile (then .env AWS_PROFILE + AGENT_MODE=bedrock -> run eval + heldout on Bedrock),
+GitHub repo creation (public, MIT), deploy choice (EC2 script ready), blind test phrases, demo video recording.
+Next for me after Bedrock run: fix whatever Bedrock gets wrong (evidence first), maybe server-side conversation memory.
