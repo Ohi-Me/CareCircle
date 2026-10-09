@@ -26,3 +26,12 @@ Deadline: 23 Oct 2026 12:00 PT (24 Oct 00:30 IST). Submit on 23 Oct evening IST.
 ## Next step
 Run: `cd server && npm start` (after `cd web && npm run build`) -> http://localhost:8787.
 Next: user sets up AWS (Bedrock access + aws configure) -> run eval in bedrock mode -> deploy. Docker not installed locally; deploy options: install Docker Desktop + App Runner/ECR, or Lightsail/EC2 with Node. Then GitHub repo, demo video, Devpost submit.
+
+## Review 2026-10-09 (evening) — decisions
+Probe of 12 unseen requests: rule agent ~3/12. Critical misses: stroke signs, grandson-jail scam; false emergency on
+"I don't have chest pain"; "It's okay to take it now" (unsafe claim); "this morning" dose stamped as now; hypoglycemia not escalated.
+Reframe: **"Ask before you act"** — CareCircle is the pause between an older adult and a risky action, family in the loop.
+Hero demo: scam call -> device says hang up -> Ravi's phone alert -> Ravi replies -> device speaks it; + duplicate-dose clarification.
+Priority: (1) safety screen on every utterance (2) medication logic rewrite (3) two-way family loop (4) escalation ladder
+(5) MCP elicitation for confirmations (stateful sessions) (6) held-out eval + scam precision/recall (7) server-side conversation
+memory (8) SNS notifications (9) split-screen demo view. Held-out set is frozen BEFORE planner changes (docs/heldout).
