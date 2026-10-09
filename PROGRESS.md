@@ -35,3 +35,14 @@ Hero demo: scam call -> device says hang up -> Ravi's phone alert -> Ravi replie
 Priority: (1) safety screen on every utterance (2) medication logic rewrite (3) two-way family loop (4) escalation ladder
 (5) MCP elicitation for confirmations (stateful sessions) (6) held-out eval + scam precision/recall (7) server-side conversation
 memory (8) SNS notifications (9) split-screen demo view. Held-out set is frozen BEFORE planner changes (docs/heldout).
+
+## Status 2026-10-10 (early)
+Done since review: safety screen (safety.ts/screen.ts), medication logic rewrite (possible_duplicate -> clarify ->
+extra dose urgent), confirmation guard, held-out sets frozen + baseline (docs/heldout-baseline-rules.md) and after
+(docs/heldout-after-safety-rules.md; contaminated - need blind set), family loop: escalation ladder Ravi->Neha->tell her
+112 (family.ts), respond_to_alert / send_message_to_elder / announcements spoken on device, +3 min demo clock. 20 MCP tools, 26 tests.
+AWS: user installed CLI 2.37, `aws login` as ROOT, Nova Pro verified in us-east-1. Local .env pins AGENT_MODE=rules until
+user creates least-privilege profile `carecircle-dev` (IAM policy: bedrock:InvokeModel on amazon.nova-pro-v1:0).
+Next: (a) Bedrock run of eval + heldout once profile exists (b) server-side conversation memory for LLM path
+(c) MCP elicitation for confirmations (d) deploy (App Runner needs Docker; or EC2/Lightsail) (e) blind test phrases from user
+(f) GitHub repo, demo video.
