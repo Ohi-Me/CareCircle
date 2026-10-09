@@ -1,0 +1,980 @@
+ALEXA+ HACKATHON PROJECT BLUEPRINT
+Build, Ship, Shape: Amazon Developer Hackathon 2026
+Purpose: A practical, Alexa+-first plan for building a NEW project from scratch.
+
+======================================================================
+0. THE MOST IMPORTANT DECISION
+======================================================================
+
+Build a new, focused Alexa+-style agent experience around a real MCP server.
+Do not start with a generic chatbot, and do not depend on getting access to
+Amazon's private Alexa+ preview tools.
+
+The hackathon FAQ currently says the Alexa+ Add-on developer tools (Category SDK,
+MCP Toolkit, CLI and Web Simulator) are select-partner preview tools and are not
+available to hackathon participants. It says participants should build a
+self-hosted MCP server or Agent Skill and demonstrate it through their own web
+front end/simulator. The FAQ specifically says a web page acting as a real MCP
+client—sending initialize, tools/list and tools/call requests over Streamable
+HTTP—satisfies the simulated-experience path.
+
+Therefore, the safest plan is:
+
+1. Build a real MCP server using the required MCP specification version.
+2. Use Streamable HTTP transport.
+3. Build your own web client that genuinely speaks MCP to your server.
+4. Give the client a conversational, voice-assistant-style experience.
+5. Demonstrate the model/agent choosing tools, calling them, changing real
+   application state, and reporting the outcome.
+6. Clearly label it as an independent Alexa+-style simulation; do not claim that
+   it is connected to a real Alexa+ device or Amazon's gated developer console.
+
+The official hackathon rules specify MCP spec 2025-11-25 or later for the
+self-hosted MCP route. Confirm that your chosen SDK supports the required version
+and transport. Do not accidentally implement only legacy HTTP+SSE.
+
+======================================================================
+1. OFFICIAL SOURCES — CHECK THESE BEFORE AND DURING BUILD
+======================================================================
+
+Hackathon main page:
+https://amazonappdev2026.devpost.com/
+
+Official rules:
+https://amazonappdev2026.devpost.com/rules
+
+Official resources:
+https://amazonappdev2026.devpost.com/resources
+
+Official FAQ:
+https://amazonappdev2026.devpost.com/details/faqs
+
+Alexa+ MCP QuickStart:
+https://www.developer.amazon.com/docs/alexaplus/add-ons/mcp-toolkit-quickstart.html
+
+MCP introduction:
+https://modelcontextprotocol.io/docs/latest/getting-started/intro
+
+MCP Streamable HTTP transport:
+https://modelcontextprotocol.io/specification/2025-11-25/basic/transports
+
+Hackathon announcement / updates:
+https://amazonappdev2026.devpost.com/updates
+
+Current listed deadline:
+23 October 2026 at 12:00 PM Pacific Time.
+Equivalent India time: 24 October 2026 at 12:30 AM IST.
+Plan to submit during 23 October in India, not in the final minutes.
+
+The public project gallery was not published at the time this plan was prepared,
+so there is no verified public numerical leaderboard or public score formula to
+optimize against.
+
+======================================================================
+2. RECOMMENDED PROJECT
+======================================================================
+
+Working title:
+DAYFLOW — A CONVERSATIONAL PERSONAL OPERATIONS AGENT
+
+Possible polished name alternatives:
+- DayFlow
+- Homebase Agent
+- LifeOps
+- Intent-to-Action
+Pick one name after checking availability. Do not spend days on naming.
+
+One-sentence pitch:
+DayFlow turns a person's everyday requests into safe, coordinated actions across
+their tasks, schedule, shopping list and personal notes—using an MCP-powered
+agent that remembers relevant application state, checks constraints, asks for
+clarification when necessary, and verifies each action.
+
+The core is not "ask an AI a question." The core is "ask for an outcome and watch
+the agent perform and verify the steps."
+
+Example user request:
+"I have a project review tomorrow, two assignments due Friday, and 90 minutes
+free today. Plan my work, add the tasks I am missing, and make sure I have the
+items I need for dinner."
+
+Possible response/workflow:
+1. Read the user's existing tasks and schedule.
+2. Detect missing information (for example, no time was provided for the review).
+3. Ask one concise clarification if that information changes the plan.
+4. Estimate available time and prioritize tasks against deadlines.
+5. Create or update the relevant task records using MCP tools.
+6. Add missing grocery items to a persistent list, but do not place an order or
+   spend money without explicit confirmation.
+7. Show a proposed plan, list every action actually completed, and provide a
+   short audit trail.
+8. If a tool fails, report the failure honestly and offer a retry.
+
+The final product should be a narrow, polished workflow, not a sprawling
+"AI that does everything" product.
+
+Why this concept:
+- It demonstrates multi-step tool orchestration, not one-turn Q&A.
+- It has persistent state and a useful context-aware experience.
+- It can be demoed without physical hardware.
+- It has real actions that a judge can verify.
+- It allows measurable tests and graceful failure handling.
+- It can use the MCP protocol directly from a web client.
+- It can be extended with one AWS service for the AWS Builder mini-challenge.
+
+Important product discipline:
+Start with tasks + schedule + shopping list. Personal notes are an optional
+fourth source. Do not build real calendar integrations, email integrations,
+payments or shopping checkout until the core flow works. Seed local demo data
+first; label it as demo data. A real external integration can be added later only
+if access is reliable and it adds clear value.
+
+======================================================================
+3. WHAT EXACTLY MUST BE SHOWN FOR THE ALEXA+ TRACK?
+======================================================================
+
+Primary-track requirement from the event:
+- A working Agent Skill OR a self-hosted MCP server.
+- MCP spec 2025-11-25 or later and Streamable HTTP for the self-hosted MCP route.
+- Alternatively, a simulated Alexa+ experience in a web app is allowed.
+- For the simulation route, include the source code and show it working clearly.
+
+The hackathon FAQ clarifies:
+- Alexa+ gated preview tools are not available to hackathon participants.
+- Build your own front end/simulator.
+- A web page acting as an actual MCP client is acceptable.
+- It should send real initialize, tools/list and tools/call messages over
+  Streamable HTTP.
+
+Minimum proof in the code:
+1. MCP server starts and exposes an HTTP endpoint.
+2. The client sends an MCP initialize request.
+3. The client discovers tools through tools/list.
+4. The agent/client calls one or more tools using tools/call.
+5. Tool calls execute actual application logic and return structured results.
+6. The results change persistent state or produce a verifiable outcome.
+7. The UI displays the action/result and handles errors.
+8. README and demo explain which parts are simulated and which integrations are
+   real.
+
+Do not:
+- Only mention MCP in the README.
+- Create an ordinary REST API and call it MCP without implementing the protocol.
+- Fake tool calls in the UI.
+- Hard-code a success message when no action was performed.
+- Claim the project is deployed to Alexa+ or connected to an Echo device.
+- Depend on access to the gated Alexa+ web simulator/CLI.
+
+If you implement a real MCP server and an MCP-aware web client, the simulated
+front end can still be attractive and product-like without pretending to be the
+official Alexa+ interface.
+
+======================================================================
+4. CORE PRODUCT SCOPE — BUILD THIS FIRST
+======================================================================
+
+MVP (must finish):
+A. Conversational input
+- User enters a natural-language request.
+- Show the request and response in a clean chat-like interface.
+- Show what the agent is doing, such as "Checking tasks" or "Updating plan."
+
+B. Actual tool use
+- MCP tools are discovered and called at runtime.
+- Tool results come from application logic/database, not a mocked response.
+- The UI can show a compact "Actions performed" list.
+
+C. Persistent application state
+- Tasks persist after refresh.
+- Shopping-list items persist after refresh.
+- Seed data can be reset for the demo.
+
+D. Context-aware planning
+- Read existing tasks and deadlines.
+- Use available time and priorities to propose a schedule.
+- Detect conflicts and missing details.
+- Ask clarification instead of silently inventing important facts.
+
+E. Safe action handling
+- Read-only calls can run directly.
+- Changes to tasks/lists can be previewed and confirmed when appropriate.
+- Never place an order or spend money in the MVP.
+- Validate inputs and return structured errors.
+
+F. Verification
+- After a write tool succeeds, show the updated task/list.
+- If a tool fails, say it failed.
+- Include an activity/audit log.
+
+G. Demonstration
+- A working public or locally reproducible web demo.
+- Public English demo video under 3 minutes.
+- Repository contains complete source and run instructions.
+
+Stretch features (only after MVP is reliable):
+- Voice input/output.
+- Personal notes search with citations.
+- Calendar API integration.
+- Multiple specialized agents.
+- Real Alexa+ add-on onboarding if access ever becomes available.
+- Rich MCP Apps UI.
+- Real shopping API or payment flow (not recommended for hackathon scope).
+- Mobile/PWA polish.
+
+======================================================================
+5. TOOL DESIGN — MCP TOOLS THE AGENT CAN CALL
+======================================================================
+
+Use small, explicit tools. Avoid one giant "do_everything" tool.
+
+Tool 1: list_tasks
+Input:
+- status: optional "open", "done", or "all"
+- due_before: optional ISO date
+Output:
+- list of tasks with id, title, due date, priority, estimated minutes, status
+
+Tool 2: create_task
+Input:
+- title: required string
+- due_date: optional ISO date/time
+- priority: "low", "medium", "high"
+- estimated_minutes: optional positive integer
+Output:
+- created task record, including stable task ID
+
+Tool 3: update_task
+Input:
+- task_id: required
+- fields: allowed task fields only
+Output:
+- updated task record or a structured not-found/validation error
+
+Tool 4: mark_task_done
+Input:
+- task_id: required
+Output:
+- updated task status
+
+Tool 5: get_schedule
+Input:
+- date: ISO date
+Output:
+- availability blocks and existing commitments from the demo schedule
+
+Tool 6: build_daily_plan
+Input:
+- date: ISO date
+- available_minutes: positive integer
+- task_ids: optional list
+Output:
+- ordered proposed plan, time estimates, conflicts and unallocated tasks
+Important: planning should return a proposal; do not automatically alter the user's
+calendar without consent.
+
+Tool 7: list_shopping_items
+Input:
+- status: optional "needed", "all"
+Output:
+- items with id, name, quantity, status
+
+Tool 8: add_shopping_item
+Input:
+- name: required
+- quantity: optional
+- reason: optional
+Output:
+- saved item
+
+Tool 9: remove_shopping_item
+Input:
+- item_id: required
+Output:
+- removed/updated item or error
+
+Optional tool 10: search_notes
+Input:
+- query: required
+Output:
+- relevant user-owned note snippets with source identifiers
+
+Optional tool 11: summarize_actions
+Input:
+- task_ids and/or date
+Output:
+- a concise summary derived from stored state
+
+Tool design rules:
+- Every tool needs a description clear enough for an agent to select it.
+- Use strict schemas and validate every argument.
+- Return structured results that include success/failure.
+- Do not accept arbitrary SQL or arbitrary file paths from the model.
+- Do not let the model invent task IDs; IDs must come from actual tool results.
+- Keep tools idempotent where possible, or guard against duplicate actions.
+- Use a consistent error shape, for example: code, message, retryable.
+- Log tool name, timestamp, outcome and latency without logging sensitive content
+  unnecessarily.
+- Confirm before destructive or costly actions.
+
+======================================================================
+6. ARCHITECTURE
+======================================================================
+
+Recommended architecture:
+
+Browser UI
+  |
+  | natural-language request
+  v
+Agent/orchestration layer
+  |
+  | discovers tools and sends MCP JSON-RPC messages
+  v
+MCP client in web/backend
+  |
+  | Streamable HTTP, MCP initialize / tools/list / tools/call
+  v
+Self-hosted MCP server
+  |
+  | validated tool handlers
+  v
+Application service layer
+  |
+  v
+SQLite database (MVP) or PostgreSQL (optional)
+
+Optional model:
+The agent uses a tool-capable LLM to interpret the request, decide which tools
+are needed, inspect tool results, ask clarification and explain the final result.
+Keep the tools and database deterministic even if the LLM is nondeterministic.
+
+Recommended stack:
+- Frontend: Next.js + React + TypeScript.
+- Backend/MCP server: Python + FastAPI with a compatible official MCP Python SDK,
+  or TypeScript/Node with a compatible MCP SDK. Pick ONE backend stack.
+- Database: SQLite for the first working version; PostgreSQL only if deployment
+  requires it.
+- Model: a tool-calling-capable model available to you. Amazon Bedrock is a
+  possible AWS Builder integration, but do not make Bedrock mandatory before
+  the basic MCP flow works.
+- Tests: pytest or the relevant language test framework.
+- Local environment: .env for secrets; .env.example contains placeholders only.
+- Hosting: any reliable host that permits the required HTTP behavior. For local
+  judging, document setup. If exposing a local server, use a secure tunnel only
+  for testing and never expose secrets.
+
+MCP protocol checklist:
+- Required protocol version from the hackathon rules: 2025-11-25 or later.
+- Streamable HTTP transport, not only legacy HTTP+SSE.
+- Initialize handshake works.
+- Tool discovery works.
+- Tool invocation works.
+- JSON-RPC errors and application errors are handled distinctly.
+- Content type, session behavior and protocol version follow the SDK/spec.
+- Test from a clean client, not only from the same server code.
+- Check the current SDK documentation before selecting a version; do not assume
+  that an old tutorial or sample supports the required version.
+
+Latency:
+The current Alexa+ QuickStart mentions a sub-500 ms round-trip response target
+for the MCP server. Treat this as a useful target for server/protocol calls.
+The complete LLM planning workflow will take longer, so measure server latency
+separately from model latency. Do not claim the complete conversation meets
+500 ms unless measured.
+
+======================================================================
+7. DATA AND DEMO FIXTURES
+======================================================================
+
+There is no universal hackathon dataset for Alexa+. The project owns its domain
+data. Use a small, believable demo dataset that is transparent and repeatable.
+
+Suggested demo tasks:
+- "Prepare project review slides" — due tomorrow — high — 45 minutes
+- "Finish assignment draft" — due Friday — high — 60 minutes
+- "Revise MCP protocol notes" — due Friday — medium — 30 minutes
+- "Reply to project collaborator" — due today — medium — 15 minutes
+- "Review tomorrow's meeting agenda" — due tomorrow — medium — 20 minutes
+
+Suggested demo schedule:
+- 10:00–10:30 — class/meeting
+- 12:00–13:00 — lunch
+- 15:00–16:30 — available focus time
+Clearly label all of this as sample/demo data.
+
+Suggested shopping list:
+- rice — 1 pack
+- vegetables — 3 portions
+- milk — 1 litre
+- bread — 1 loaf
+
+Use a seed script so judges can reset the same state. Avoid connecting real personal
+calendar, email, health, or financial accounts in the first version.
+
+Data quality rules:
+- Mark fixture/sample data clearly.
+- Do not claim the app has read a real calendar if it only uses seed data.
+- Keep API keys and model credentials out of the repository.
+- Use fake identities and non-sensitive sample notes in the demo.
+- Document data sources, limitations and privacy choices.
+- Add a "Reset demo data" control that only resets sample records.
+
+======================================================================
+8. MODEL / AGENT STRATEGY
+======================================================================
+
+Do not train a model from scratch. The hackathon does not require a trained ML
+model or a numeric benchmark score. Use a capable existing model only if it
+improves natural-language planning and tool selection.
+
+Recommended agent loop:
+1. Receive the user's request.
+2. Identify the desired outcome and constraints.
+3. If a critical detail is missing, ask a clarification.
+4. Discover the available MCP tools.
+5. Choose the minimum tools needed.
+6. Call tools with schema-valid arguments.
+7. Inspect the returned results.
+8. If needed, call a second tool based on the first result.
+9. Before a risky write, show a preview and ask for confirmation.
+10. Verify changed state after writes.
+11. Summarize actions actually completed, actions proposed and any failures.
+
+Keep the model away from direct database access. It must call validated tools.
+
+Fallback:
+If the model provider is unavailable, the product should show an honest error or
+offer a limited deterministic demo flow. Do not silently fabricate an AI answer.
+
+Possible evaluation metrics:
+- Correct tool selection.
+- Tool argument validity.
+- End-to-end task success.
+- Correctness of resulting state.
+- Appropriate clarification rate.
+- Unsafe/unconfirmed action rate.
+- Error recovery rate.
+- Median and p95 tool latency.
+- Model response latency and estimated cost.
+These are recommended project metrics, not official hackathon score categories.
+
+Suggested small evaluation set:
+Create 30 test requests:
+- 8 straightforward list/create/update/complete requests.
+- 6 planning requests with time constraints.
+- 4 requests with missing information that require clarification.
+- 4 conflicting deadline or impossible-capacity requests.
+- 4 duplicate or malformed requests.
+- 4 tool/database/model failure scenarios.
+
+For every test, record:
+request, expected tool calls, expected state change, actual result, pass/fail,
+error type and latency. Do not cherry-pick only successful examples.
+
+======================================================================
+9. USER EXPERIENCE — WHAT THE JUDGES SHOULD SEE
+======================================================================
+
+Recommended UI:
+- Left/sidebar: Today, Tasks, Schedule, Shopping list, Activity.
+- Main area: conversation and proposed plan.
+- Small status indicator: connected / tool running / failed.
+- Action summary: "3 actions completed, 1 needs confirmation."
+- Expandable tool trace: tool name, safe summary of arguments, result status.
+- Clear confirmation controls before consequential writes.
+- Visible source/context for facts used in the plan.
+- Responsive layout that looks intentional at laptop resolution.
+
+Example flow:
+User:
+"I have 90 minutes today. Plan the most important work and add anything missing."
+
+UI:
+"Checking your tasks and schedule…"
+
+Actual MCP calls:
+1. list_tasks(status="open")
+2. get_schedule(date="...")
+3. build_daily_plan(date="...", available_minutes=90, task_ids=[...])
+
+Agent:
+"You have 90 minutes. I recommend:
+1. Assignment draft — 60 min
+2. Reply to collaborator — 15 min
+3. Review meeting agenda — 15 min
+The project review slides remain unallocated. Would you like me to move them to
+tomorrow or reduce the assignment block?"
+
+User confirms:
+"Move the slides to tomorrow."
+
+Actual MCP call:
+4. update_task(task_id=real_id, fields={due_date: tomorrow})
+
+UI verifies the updated record and shows the activity event. This is the product
+moment to capture in the demo: request -> context retrieval -> multi-step tool use
+-> clarification/confirmation -> verified state change.
+
+======================================================================
+10. DIFFERENTIATION — HOW NOT TO LOOK LIKE A BASIC CHATBOT
+======================================================================
+
+The official judging criteria cover technical implementation, design, potential
+impact and quality/creativity of idea. The rules describe basic single-turn Q&A
+and simple API wrappers as obvious concepts, while more creative examples include
+multi-service orchestration, context-aware state, purchasing/media capabilities,
+MCP Apps and Agent Skills.
+
+Choose two or three of these differentiators and execute them well:
+
+1. Context-aware planning:
+   The agent reads actual existing task and schedule state before proposing an
+   action. It does not respond from the prompt alone.
+
+2. Constraint-aware scheduling:
+   The agent respects available minutes, deadlines and estimated task duration.
+   It flags tasks that cannot fit instead of pretending everything fits.
+
+3. Verified actions:
+   The UI shows that a tool actually changed persistent state and then confirms
+   the final state by reading it back.
+
+4. Safe confirmation:
+   The agent distinguishes recommendations from actions. It asks before
+   destructive, external or costly operations.
+
+5. Honest recovery:
+   A failed tool call is visible, explained and retryable. No false success.
+
+6. Contextual memory:
+   A user's saved preferences (for example, preferred focus-block length) affect
+   future plans, and the UI lets the user inspect or reset those preferences.
+
+7. Evaluation mode:
+   A visible developer panel or report summarizes tool-call success across a
+   small reproducible test set.
+
+Do not add all seven if time is short. Prioritize stateful planning, verified
+actions and safe recovery.
+
+======================================================================
+11. AWS BUILDER MINI-CHALLENGE — OPTIONAL
+======================================================================
+
+The event allows an AWS Builder mini-challenge entry if AWS services are used in
+the actual project and the integration is documented. Examples include Bedrock,
+AgentCore, Strands SDK, Kiro Crew and SageMaker.
+
+Practical option:
+Use Amazon Bedrock for the model call if account access, permissions, model
+availability and costs are manageable. Document the actual code path and show
+the integration working. A real use of Kiro Crew may also qualify according to
+the event description.
+
+Do this only after the core MCP workflow works.
+
+Checklist:
+- Actual AWS service call in application code.
+- Clear environment configuration.
+- No credentials in GitHub.
+- Minimal cost controls and clear error handling.
+- README explains service, feature, setup and limits.
+- Product feedback includes AWS tools/services.
+- Demo shows the integration or reproducible code path.
+
+The event Resources page reported on 7 October 2026 that promotional credit codes
+were exhausted and credit requests were no longer being accepted. Verify the
+current status before planning costs. Do not assume free credits will be awarded.
+
+======================================================================
+12. OPEN SOURCE MINI-CHALLENGE — OPTIONAL
+======================================================================
+
+This is an additional contribution alongside the primary track submission, not
+a substitute for the Alexa+ project.
+
+Possible work:
+- Contribute tests or documentation to a relevant MCP SDK/sample.
+- Improve an example that demonstrates Streamable HTTP correctly.
+- Publish a small reusable tool or integration with a proper open-source license.
+- Submit a meaningful pull request to a public repository.
+
+Keep evidence:
+- Public repository URL.
+- Contribution URL.
+- GitHub username.
+- Short explanation of what changed, how it works and why it matters.
+
+A pull request does not need to be merged according to the event description, but
+it must be a real contribution made during the eligible period. Do not manufacture
+a trivial or misleading contribution just for the prize.
+
+Do not start this mini-challenge until the main Alexa+ demo is stable.
+
+======================================================================
+13. REPOSITORY STRUCTURE
+======================================================================
+
+Suggested monorepo:
+
+dayflow/
+  README.md
+  LICENSE
+  .gitignore
+  .env.example
+  docker-compose.yml                 # optional
+  frontend/
+    app/
+    components/
+    lib/
+  backend/
+    app/
+      main.py
+      mcp_server.py
+      tools/
+        tasks.py
+        schedule.py
+        shopping.py
+        notes.py                     # optional
+      services/
+        planner.py
+        agent.py
+      db/
+        models.py
+        repository.py
+      schemas/
+      config.py
+  tests/
+    unit/
+    integration/
+    evaluation/
+  sample-data/
+    seed.json
+  scripts/
+    seed_demo.py
+    reset_demo.py
+  docs/
+    architecture.md
+    evaluation.md
+    privacy.md
+    product-feedback.md
+    demo-script.md
+
+Adjust paths to the chosen language/framework. This is a suggested organization,
+not a mandatory layout.
+
+README must state:
+- Problem and target user.
+- One-sentence product explanation.
+- Alexa+ track and simulation path.
+- Exactly what is real and what is simulated.
+- MCP version and transport.
+- Architecture/data flow.
+- Setup instructions.
+- Environment variables with placeholders.
+- How to seed/reset demo data.
+- How to run tests.
+- Demo video URL.
+- Known limitations and future work.
+- Data sources and license information.
+- AWS Builder/Open Source information if entering those mini-challenges.
+
+======================================================================
+14. BUILD PLAN FROM 9 OCTOBER TO SUBMISSION
+======================================================================
+
+The deadline is 24 October 2026 at 12:30 AM IST. Treat 23 October as the last
+practical workday in India. Aim to submit earlier that evening.
+
+PHASE 1 — 9–10 OCT: SCOPE AND MCP PROOF
+- Create a new repository.
+- Choose DayFlow as the working project name.
+- Read current MCP transport and SDK documentation.
+- Confirm the SDK supports the minimum required MCP specification.
+- Implement server startup and initialize.
+- Implement tools/list with two simple tools.
+- Implement tools/call with a real database action.
+- Verify the flow with an independent MCP client/test.
+Deliverable: a tiny but real MCP server before any polished UI.
+
+PHASE 2 — 11–12 OCT: DATA AND TOOL LAYER
+- Add SQLite and seed data.
+- Implement list_tasks, create_task, update_task, mark_task_done.
+- Add schedule and shopping tools.
+- Validate all inputs and errors.
+- Write unit tests.
+Deliverable: working, tested tools.
+
+PHASE 3 — 13–14 OCT: MCP CLIENT AND FRONT END
+- Build the web UI.
+- Implement actual initialize, tools/list and tools/call messages over
+  Streamable HTTP.
+- Add conversation history and tool-status indicators.
+- Display structured tool results.
+- Add persistent tasks and shopping list.
+Deliverable: web app can make real MCP calls.
+
+PHASE 4 — 15–16 OCT: AGENT WORKFLOW
+- Add model/tool-calling orchestration.
+- Implement request interpretation, multi-step calls and result synthesis.
+- Add clarification and confirmation behavior.
+- Add a deterministic fallback or honest failure state.
+Deliverable: one complete user request can lead to multiple verified actions.
+
+PHASE 5 — 17–18 OCT: DIFFERENTIATION AND EVALUATION
+- Add constraint-aware daily planning.
+- Add activity/audit log.
+- Create the 30-case evaluation set.
+- Test malformed requests, conflicts and service failures.
+- Fix high-severity failures.
+Deliverable: reliable demo flow and honest metrics.
+
+PHASE 6 — 19–20 OCT: DESIGN AND DEPLOYMENT
+- Polish the interface.
+- Add empty/loading/error/success states.
+- Test from a clean clone and fresh environment.
+- Deploy or document local setup.
+- Confirm public demo accessibility and no leaked secrets.
+Deliverable: stable demo.
+
+PHASE 7 — 21 OCT: DOCUMENTATION AND PRODUCT FEEDBACK
+- Finish README, architecture and evaluation docs.
+- Record genuine product feedback for every tool/API/SDK.
+- Add feature requests and truthful friction log entries.
+- Add AWS Builder integration only if it can be finished safely.
+Deliverable: submission-ready repository.
+
+PHASE 8 — 22 OCT: VIDEO AND REVIEW
+- Record a public English demo under 3 minutes.
+- Test every link and permission.
+- Confirm the video proves real MCP calls.
+- Check submission fields.
+Deliverable: final assets.
+
+PHASE 9 — 23 OCT: SUBMIT EARLY
+- Submit before late evening in India.
+- Verify Devpost submission page and selected track.
+- Verify repository access/visibility.
+- Verify video is public and under 3 minutes.
+- Keep a backup of the source and demo.
+Do not leave the submission to 12:20 AM on 24 October.
+
+======================================================================
+15. DEMO VIDEO SCRIPT — 2 MINUTES 45 SECONDS
+======================================================================
+
+0:00–0:15 — THE PROBLEM
+Show an overloaded user with tasks and a limited time window.
+Say: "Most assistants answer a request. DayFlow turns it into verified actions."
+
+0:15–0:35 — REQUEST
+Enter: "I have 90 minutes today. Plan my work and add anything missing."
+Show the app starting the workflow.
+
+0:35–1:15 — REAL MCP INTEGRATION
+Show the client discovering tools and calling the MCP server over Streamable HTTP.
+Show the actual task and schedule results. Do not show fake tool logs.
+
+1:15–1:45 — MULTI-STEP AGENT
+Show the proposed plan, one detected conflict, and a clarification/confirmation.
+Confirm a task update.
+
+1:45–2:05 — VERIFIED OUTCOME
+Show the persistent database-backed task changed and the activity log updated.
+Briefly demonstrate a controlled failure or validation message if time allows.
+
+2:05–2:25 — ENGINEERING
+Show the MCP server, tool definitions, tests and repository structure.
+State the MCP specification/transport implemented.
+
+2:25–2:45 — IMPACT
+Explain the target user and why safe, context-aware actions are useful.
+State honestly that this is an independent Alexa+-style web simulation and not
+connected to a real Alexa+ device or gated preview console.
+
+Keep the video under 3:00. Use a public English-language YouTube or Vimeo video,
+as required by the event page. Avoid copyrighted music/assets unless licensed.
+
+======================================================================
+16. SUBMISSION CHECKLIST
+======================================================================
+
+CORE TRACK:
+[ ] Project is clearly submitted to Alexa+.
+[ ] A working MCP server or eligible Agent Skill exists.
+[ ] Required MCP version is supported.
+[ ] Streamable HTTP is used for the self-hosted MCP path.
+[ ] The repository contains real runtime use of the required technology.
+[ ] Web client sends actual MCP initialize/tools/list/tools/call messages.
+[ ] The main flow changes and verifies real application state.
+[ ] Source code and setup instructions are complete.
+[ ] The demo clearly shows the simulation and does not claim real Alexa+ access.
+
+REPOSITORY:
+[ ] README explains problem, architecture, setup, tests and limitations.
+[ ] .env.example contains placeholders only.
+[ ] No tokens, passwords, API keys or private user data are committed.
+[ ] License and repository visibility follow the official submission rules.
+[ ] Clean-clone setup has been tested.
+[ ] Tests and evaluation results are documented honestly.
+
+VIDEO:
+[ ] Public.
+[ ] English.
+[ ] Under 3 minutes.
+[ ] Shows the product working.
+[ ] Shows actual MCP behavior.
+[ ] Uses only permitted/owned assets.
+
+SUBMISSION FIELDS:
+[ ] Project description.
+[ ] Repository URL.
+[ ] Demo video URL.
+[ ] Track and mini-challenge selections.
+[ ] Product feedback for every tool/API/SDK.
+[ ] Existing-project changes explained, if relevant.
+[ ] AWS Builder fields completed if entering it.
+[ ] Open Source contribution URL and details if entering it.
+[ ] Feature requests/friction log completed truthfully if applicable.
+[ ] Submission page checked after publishing.
+
+======================================================================
+17. WHAT JUDGES ARE LIKELY TO CARE ABOUT
+======================================================================
+
+Official judging criteria:
+1. Technical implementation.
+2. Design.
+3. Potential impact.
+4. Quality/creativity of the idea.
+
+No official numerical score formula or required model metric was found in the
+official material reviewed. Do not invent weights or a guaranteed score.
+
+Translate the criteria into proof:
+- Technical: protocol works, tools are real, code is reproducible, errors handled.
+- Design: clear interface, good feedback, low-friction user journey.
+- Impact: solves a specific problem for a clear user.
+- Creativity: context-aware multi-step workflow, not a single-turn Q&A wrapper.
+
+Strong evidence:
+- A real end-to-end flow that can be repeated.
+- A short evaluation table.
+- A transparent activity log.
+- A clean README and reproducible setup.
+- A compelling demo with no broken or placeholder paths.
+- Honest product feedback to Amazon.
+
+Weak evidence:
+- Only screenshots or slides.
+- A chat box with canned replies.
+- Fake MCP tool calls.
+- A generic AI answer with no state change.
+- A long feature list with no reliable core workflow.
+- Unsupported claims about speed, accuracy, user numbers or real Alexa+ deployment.
+
+======================================================================
+18. KNOWN RISKS AND HOW TO HANDLE THEM
+======================================================================
+
+Risk 1: Gated Alexa+ developer tools are unavailable.
+Mitigation: use the official permitted simulation route and an actual MCP client
+against your self-hosted server. Do not block progress waiting for private access.
+
+Risk 2: Wrong MCP transport/version.
+Mitigation: verify the current specification and SDK support before building.
+Test initialize, tool discovery and tool invocation independently.
+
+Risk 3: Generic project idea.
+Mitigation: demonstrate context-aware planning, verified actions and safe recovery.
+Keep the user problem narrow.
+
+Risk 4: LLM makes up facts or claims actions succeeded.
+Mitigation: use tool results as the source of truth, validate arguments, verify
+state after writes, and show failures.
+
+Risk 5: Too much scope.
+Mitigation: tasks + schedule + shopping list first. Skip real payments and external
+integrations unless the core is already finished.
+
+Risk 6: Model/API costs or unavailable credentials.
+Mitigation: build and test deterministic tools first. Keep model calls configurable
+and cost-controlled. Do not rely on promotional credits.
+
+Risk 7: Deployment complexity.
+Mitigation: get a local working demo first, then deploy. Document a reliable
+fallback setup and keep secrets private.
+
+Risk 8: No public leaderboard or numeric score.
+Mitigation: optimize against the published qualitative criteria and provide
+verifiable technical/product evidence rather than chasing an invented score.
+
+======================================================================
+19. FINAL RECOMMENDATION
+======================================================================
+
+Build DayFlow as a new project with:
+- A real self-hosted MCP server.
+- Streamable HTTP transport and the required MCP spec version.
+- A web front end that acts as an actual MCP client.
+- A tool-using agent for task and schedule planning.
+- Persistent sample data and verifiable state changes.
+- Clarification, confirmation and error recovery.
+- A compact evaluation suite and activity log.
+- A clear, honest, under-three-minute demo video.
+
+Priority order:
+1. Prove the MCP server works.
+2. Build real tools and persistent state.
+3. Connect the actual MCP client.
+4. Complete one multi-step workflow.
+5. Add model-based planning.
+6. Test and polish.
+7. Document, record and submit.
+8. Add AWS Builder/Open Source only if the core is already stable.
+
+This is a build plan and recommendation, not a guarantee of a prize. The strongest
+submission is the one that is complete, distinctive, technically real, easy to
+reproduce and honest about what it does.
+
+======================================================================
+20. SOURCES AND FACTUAL STATUS
+======================================================================
+
+Official hackathon main page and rules:
+https://amazonappdev2026.devpost.com/
+https://amazonappdev2026.devpost.com/rules
+
+Official FAQ:
+https://amazonappdev2026.devpost.com/details/faqs
+
+Official resources:
+https://amazonappdev2026.devpost.com/resources
+
+Alexa+ MCP QuickStart:
+https://www.developer.amazon.com/docs/alexaplus/add-ons/mcp-toolkit-quickstart.html
+
+MCP specification:
+https://modelcontextprotocol.io/specification/2025-11-25/basic/transports
+
+Source-derived requirements:
+- Alexa+ supports the MCP/Agent Skill path or a permitted web simulation.
+- The rules require MCP specification 2025-11-25 or later for the self-hosted MCP
+  route and Streamable HTTP.
+- The FAQ says Alexa+ add-on developer tools are select-partner preview tools and
+  not available to hackathon participants; use your own web client/simulator.
+- The FAQ says an actual MCP client that sends initialize, tools/list and
+  tools/call over Streamable HTTP can satisfy the simulation route.
+- The event judging criteria are technical implementation, design, potential
+  impact and idea quality.
+- The event deadline shown is 23 October 2026 at 12:00 PM Pacific Time
+  (24 October 2026 at 12:30 AM IST).
+
+Recommendation/inference in this file:
+- DayFlow is a suggested project concept, not an official Amazon project.
+- The architecture, tool list, dataset, evaluation set and timeline are proposals.
+- Suggested metrics are engineering/product evaluation metrics, not official
+  judging scores.
+- Winning probability cannot be inferred from this plan.
+
+End of document.
