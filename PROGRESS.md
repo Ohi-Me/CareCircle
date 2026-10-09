@@ -17,11 +17,12 @@ Deadline: 23 Oct 2026 12:00 PT (24 Oct 00:30 IST). Submit on 23 Oct evening IST.
 5. Confirmation gate for consequential writes; full MCP trace + audit log; eval suite.
 
 ## Phases
-- [ ] P1 MCP server + SQLite + tools + tests
-- [ ] P2 Agent loop (Bedrock + fallback)
-- [ ] P3 Voice web client (elder view) + family dashboard (PWA)
+- [x] P1 MCP server + SQLite + 16 tools (tests still TODO)
+- [x] P2 Agent loop (Bedrock Converse code + rule fallback; Bedrock untested - no AWS creds yet)
+- [x] P3 Voice web client + family dashboard + MCP trace (browser MCP client), PWA manifest
 - [ ] P4 Eval set (30 cases) + docs
 - [ ] P5 Deploy to AWS, demo video, submit
 
 ## Next step
-P1: scaffold `server/`.
+Run: `cd server && npm start` (after `cd web && npm run build`) -> http://localhost:8787.
+Next: unit tests + 30-case eval script, README/docs, AWS creds -> test Bedrock, deploy (App Runner), demo video.
