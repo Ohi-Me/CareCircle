@@ -55,3 +55,14 @@ docs/deploy.md (UNTESTED), device framing UI. 29 tests pass; eval 32/32; heldout
 Blocked on user: least-privilege AWS profile (then .env AWS_PROFILE + AGENT_MODE=bedrock -> run eval + heldout on Bedrock),
 GitHub repo creation (public, MIT), deploy choice (EC2 script ready), blind test phrases, demo video recording.
 Next for me after Bedrock run: fix whatever Bedrock gets wrong (evidence first), maybe server-side conversation memory.
+
+## Status 2026-10-11
+- Chat bug root cause: `aws login` (root) session expired -> CredentialsProviderError on every Bedrock call -> silent fallback
+  to rule planner whose catch-all was the schedule. Fixed visibility (/api/agent/mode credential check, per-reply answered_by,
+  server log line), partial-failure guard (no fallback after writes), real catch-all replies. +3 regression tests.
+- New scenarios (server/eval/blind-2026-10-11.json, author-written, frozen before run): 12/15 with 2 CRITICAL (chest metaphor
+  missed; "Neha fainted ... send money" -> false emergency + missed scam). Fixed generally; now 15/15 (no longer blind).
+- 34 tests pass; eval 32/32; held-out 24/24. Pushed to https://github.com/Ohi-Me/CareCircle (main e89f194, owner LICENSE kept).
+- AWS: no carecircle-dev profile; root login expired. App runs AGENT_MODE=rules (inline env) until user fixes creds.
+- Proposed: also enter OpenCV AI Competition 2026 (deadline Oct 26 PT) with a pill-box vision check (OpenCV 5 = 5.0.0.93 on pip)
+  as an MCP tool -> agentic vision. Rules checked: neither forbids multiple competitions; both licenses non-exclusive. Awaiting user go/no-go.
