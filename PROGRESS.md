@@ -66,3 +66,14 @@ Next for me after Bedrock run: fix whatever Bedrock gets wrong (evidence first),
 - AWS: no carecircle-dev profile; root login expired. App runs AGENT_MODE=rules (inline env) until user fixes creds.
 - Proposed: also enter OpenCV AI Competition 2026 (deadline Oct 26 PT) with a pill-box vision check (OpenCV 5 = 5.0.0.93 on pip)
   as an MCP tool -> agentic vision. Rules checked: neither forbids multiple competitions; both licenses non-exclusive. Awaiting user go/no-go.
+
+## Status 2026-10-11 (later) — two-competition plan ACCEPTED by user
+- Also entering OpenCV AI Competition 2026 (deadline Oct 26 11:59 PM PT; video <=5 min). Alexa+ deadline Oct 23 12:00 PT (video <3 min).
+- Built "strip check": vision/ (Python 3.11, opencv-python-headless 5.0.0.93, FastAPI :8790). SIFT+FLANN+USAC_MAGSAC id,
+  print-NCC tie-break, warp, Hough grid, local-foil Lab classifier. MCP tools inspect/register/list_strip_checks (23 tools).
+  Reconciliation with dose log; elicitation to record unlogged dose; urgent alert on possible double dose. UI camera button + dashboard card.
+- Tests: node 36 pass (incl e2e Node->OpenCV), python 13 pass — all SYNTHETIC. docs/vision-eval.md = placeholder (no real results).
+- Waiting on user: medicine-strip photos per docs/PHOTO-GUIDE.md into vision/data/raw (ref_<name>_<left>of<total>.jpg, <name>_<left>of<total>_<n>.jpg);
+  AWS creds (aws login expired; carecircle-dev profile missing); EC2 deploy (t4g.small, script updated for vision).
+- Next for me: run scripts/eval_real.py on real photos -> calibrate classifier thresholds with held-out split (honest), write OpenCV
+  submission docs (architecture, metrics, failure cases), COOL benchmark only if COOL verifiably runs on Graviton.
