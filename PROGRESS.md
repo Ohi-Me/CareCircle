@@ -77,3 +77,18 @@ Next for me after Bedrock run: fix whatever Bedrock gets wrong (evidence first),
   AWS creds (aws login expired; carecircle-dev profile missing); EC2 deploy (t4g.small, script updated for vision).
 - Next for me: run scripts/eval_real.py on real photos -> calibrate classifier thresholds with held-out split (honest), write OpenCV
   submission docs (architecture, metrics, failure cases), COOL benchmark only if COOL verifiably runs on Graviton.
+
+## Status 2026-10-14 — THIRD contest + internship goal
+- User goals: (1) NVIDIA Research internship portfolio (multimodality/VLMs, agents, efficiency); (2) submit CareCircle to 3 contests:
+  Alexa+ (Oct 23 12:00 PT), OpenCV AI (Oct 26 23:59 PT), Nebius x NVIDIA Global AI Hackathon (Oct 30 10:00 PT,
+  https://nebiusglobalaihackathon.devpost.com/rules: existing projects OK if significantly updated + explained; Stage One rejects
+  "superficial rebrand"; must make runtime calls to Token Factory with an NVIDIA open model; track: Best Apps and Agents).
+- Done: server/src/nemotron.ts — OpenAI-compatible Token Factory agent (AGENT_MODE=nebius, NEBIUS_API_KEY, NEBIUS_BASE_URL default
+  https://api.tokenfactory.nebius.com/v1, NEBIUS_MODEL_FAST/REASON/VISION env; defaults UNVERIFIED guesses), routing fast vs Ultra
+  (caregiver weekly review), /api/agent/mode checks /models, key scrubbing, partial-failure guard. 7 mock tests; total node 43 pass.
+- NOT done (next, in order): (a) user: Nebius account + API key in .env -> verify model ids via /api/agent/mode, run eval/heldout
+  with AGENT_MODE=nebius; (b) weekly care review (Ultra) endpoint + dashboard card; (c) Nemotron Omni label/expiry reading of strip
+  photo cross-checked with OpenCV (advisory only); (d) research-style study for internship: routing efficiency (fast vs Ultra:
+  accuracy/latency/tokens) + vision ablation (OpenCV vs VLM vs both) — only with real runs; (e) per-contest README sections,
+  3 videos, 3 write-ups. Still blocked: strip photos, AWS creds, deploy.
+- Claude WEEKLY usage at 93% on Oct 14 (resets Oct 18 06:00 UTC) — expect interruptions; resume from this file.
